@@ -1,0 +1,67 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import matter from 'gray-matter';
+
+// Считываем Markdown-файл нашей главной страницы
+const filePath = path.join(process.cwd(), 'src/content/pages/index.md');
+const fileContent = fs.readFileSync(filePath, 'utf-8');
+const { data, content } = matter(fileContent);
+---
+
+<!usr/bin/env html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO Мета-теги -->
+    <title>{data.title}</title>
+    <meta name="description" content={data.description} />
+    <meta property="og:title" content={data.title} />
+    <meta property="og:description" content={data.description} />
+    
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        line-height: 1.6;
+        color: #1a1a1a;
+        background-color: #fcfcfc;
+      }
+      header {
+        border-bottom: 2px solid #eaeaea;
+        padding-bottom: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      h1 {
+        font-size: 2.2rem;
+        color: #111;
+        margin-bottom: 0.5rem;
+      }
+      .description {
+        font-size: 1.1rem;
+        color: #666;
+      }
+      main {
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>{data.title}</h1>
+      <p class="description">{data.description}</p>
+    </header>
+    <main>
+      <div class="content">
+        {content}
+      </div>
+    </main>
+  </body>
+</html>
